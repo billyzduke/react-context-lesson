@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
@@ -13,12 +13,11 @@ import { ReactComponent as Logo } from '../../assets/crown.svg'
 import './header.styles.scss'
 
 import UserContext from '../../contexts/user/context'
-import CartContext from '../../contexts/cart/context'
+import { CartContext } from '../../providers/cart/provider'
 
 const Header = () => {
   const user = useContext(UserContext)
-  const [ hidden, setHidden ] = useState(true)
-  const toggleCartHidden = () => setHidden(!hidden)
+  const { hidden } = useContext(CartContext)
   return (
     <div
       className='header'
@@ -61,11 +60,7 @@ const Header = () => {
           SIGN IN
           </Link>
         ) }
-        <CartContext.Provider
-          value={ { hidden, toggleCartHidden } }
-        >
-          <CartIcon />
-        </CartContext.Provider>
+        <CartIcon />
       </div>
       { hidden ? null : <CartDropdown /> }
     </div>
